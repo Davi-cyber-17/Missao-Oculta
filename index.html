@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Missão Oculta: descubra quem não sabe a palavra secreta! Jogue no mesmo celular ou online, em salas, com os amigos.">
+  <meta property="og:title" content="Missão Oculta">
+  <meta property="og:description" content="Descubra quem não sabe a palavra secreta! Jogue online com os amigos.">
+  <meta property="og:type" content="website">
+  <title>Missão Oculta</title>
+  <meta name="theme-color" content="#0b0f17">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="card">
+
+  <!-- INÍCIO: ESCOLHA DO MODO -->
+  <section id="s-home" class="screen">
+    <div class="head center">
+      <span class="badge">🎮 Escolha como jogar</span>
+      <h1>Missão Oculta</h1>
+      <p class="muted">Descubra quem não sabe a palavra secreta!</p>
+    </div>
+
+    <button id="btn-local" class="btn primary">📱 Modo Local</button>
+    <p class="muted center small" style="margin-top:-.75rem">Todos jogam no mesmo celular, passando de mão em mão.</p>
+
+    <button id="btn-online" class="btn dark">🌐 Online</button>
+    <p class="muted center small" style="margin-top:-.75rem">Cada um joga no seu aparelho, por meio de uma sala.</p>
+  </section>
+
+  <!-- ONLINE: CRIAR OU ENTRAR EM SALA -->
+  <section id="s-online" class="screen hidden">
+    <div class="head center">
+      <span class="badge">🌐 Modo Online</span>
+      <h1>Salas</h1>
+      <p class="muted">Crie uma sala e chame os amigos, ou entre com o código.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl" for="in-name">Seu nome</label>
+      <input id="in-name" class="input" maxlength="16" placeholder="Ex.: Davi" autocomplete="off">
+    </div>
+
+    <button id="btn-create" class="btn primary">Criar sala</button>
+
+    <div class="sep"><span>ou entre em uma sala</span></div>
+
+    <div class="row">
+      <input id="in-code" class="input code" maxlength="4" placeholder="CÓDIGO" autocapitalize="characters" autocomplete="off">
+      <button id="btn-join" class="btn dark">Entrar</button>
+    </div>
+
+    <button id="btn-online-back" class="btn ghost small">← Voltar</button>
+  </section>
+
+  <!-- CONFIGURAÇÃO LOCAL -->
+  <section id="s-local" class="screen hidden">
+    <div class="head center">
+      <span class="badge">📱 Passa e joga</span>
+      <h1>Jogo local</h1>
+      <p class="muted">Todos jogam no mesmo aparelho.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Número de jogadores: <span id="num-players-val" class="accent">4</span></label>
+      <input type="range" id="num-players" min="3" max="8" value="4" class="range">
+      <div class="between muted small"><span>3 jogadores</span><span>8 jogadores</span></div>
+    </div>
+
+    <div id="local-settings"></div>
+
+    <div class="field">
+      <button id="btn-lcustom-toggle" type="button" class="btn ghost small">✍️ Definir palavra da rodada</button>
+      <div id="lcustom-panel" class="field hidden">
+        <label class="lbl" for="in-lcustom-word">Palavra da rodada (fica oculta)</label>
+        <div class="row">
+          <input id="in-lcustom-word" type="password" class="input" maxlength="30" placeholder="Ex.: Biblioteca" autocomplete="off" autocapitalize="sentences" spellcheck="false">
+          <button id="btn-lcustom-save" type="button" class="btn dark">Salvar</button>
+        </div>
+        <button id="btn-lcustom-clear" type="button" class="btn ghost small hidden">Remover palavra (sortear automaticamente)</button>
+      </div>
+      <p id="lcustom-status" class="muted small center hidden"></p>
+    </div>
+
+    <button id="btn-local-start" class="btn primary">Iniciar partida</button>
+    <button id="btn-local-back" class="btn ghost small">← Voltar</button>
+  </section>
+
+  <!-- LOBBY ONLINE -->
+  <section id="s-lobby" class="screen hidden">
+    <div class="head center">
+      <span class="badge">Código da sala</span>
+      <div id="room-code" class="roomcode">----</div>
+      <button id="btn-share" class="btn ghost small">🔗 Compartilhar convite</button>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Jogadores (<span id="lobby-count">1</span>)</label>
+      <ul id="lobby-list" class="plist"></ul>
+    </div>
+
+    <div id="lobby-settings-host"></div>
+    <p id="lobby-settings-guest" class="muted center hidden"></p>
+
+    <div id="lobby-suggest" class="field">
+      <label class="lbl" for="in-suggest">💡 Sugerir um tema</label>
+      <div class="row">
+        <input id="in-suggest" class="input" maxlength="30" placeholder="Ex.: Biblioteca" autocomplete="off">
+        <button id="btn-suggest" type="button" class="btn dark">Enviar</button>
+      </div>
+      <button id="btn-suggest-clear" type="button" class="btn ghost small hidden">Remover minha sugestão</button>
+      <p id="suggest-status" class="muted small center"></p>
+    </div>
+
+    <button id="btn-start-online" class="btn primary">Iniciar partida</button>
+    <p id="lobby-hint" class="muted center small"></p>
+    <button id="btn-leave-lobby" class="btn ghost small">Sair da sala</button>
+  </section>
+
+  <!-- PASSE O APARELHO (LOCAL) -->
+  <section id="s-pass" class="screen hidden center">
+    <div class="circle">📱</div>
+    <h2 id="pass-name" class="big">Jogador 1</h2>
+    <p class="muted">Passe o celular para este jogador. Certifique-se de que ninguém mais está olhando a tela!</p>
+    <div class="warn">⚠️ <span>A próxima tela exibirá a palavra secreta ou revelará se você é o impostor!</span></div>
+    <button id="btn-pass-ok" class="btn primary">Sou eu! Ver minha palavra</button>
+  </section>
+
+  <!-- REVELAÇÃO DO PAPEL -->
+  <section id="s-reveal" class="screen hidden center">
+    <div>
+      <span id="reveal-label" class="eyebrow">Jogador</span>
+      <h2>Seu papel secreto</h2>
+    </div>
+    <button id="role-card" class="rolecard" type="button">
+      <span id="card-icon" class="icon">🔒</span>
+      <span id="card-text" class="txt">---</span>
+      <span id="card-sub" class="sub">Mantenha segredo!</span>
+    </button>
+    <p class="muted small">Toque no cartão para mostrar ou esconder.</p>
+    <button id="btn-reveal-done" class="btn dark">Entendido (esconder papel)</button>
+  </section>
+
+  <!-- AGUARDANDO (ONLINE) -->
+  <section id="s-wait" class="screen hidden center">
+    <div class="circle">⏳</div>
+    <h2>Aguardando os jogadores</h2>
+    <p id="wait-count" class="muted">0 de 0 prontos</p>
+    <ul id="wait-list" class="plist left"></ul>
+    <button id="btn-start-disc" class="btn primary hidden">Iniciar discussão</button>
+    <p id="wait-guest" class="muted small hidden">O anfitrião vai iniciar a discussão.</p>
+  </section>
+
+  <!-- DISCUSSÃO -->
+  <section id="s-disc" class="screen hidden center">
+    <div>
+      <span class="badge green">🗣️ Fase de discussão</span>
+      <h2>Descubram o Impostor!</h2>
+      <p class="muted small">Façam perguntas sobre o assunto sem dar pistas óbvias.</p>
+    </div>
+
+    <div id="timer-box" class="timerbox">
+      <div id="timer-display" class="time">03:00</div>
+      <p id="timer-status" class="muted small">Conversa liberada</p>
+    </div>
+
+    <button id="btn-peek" class="btn ghost small">👁️ Rever meu papel</button>
+    <div id="peek-card" class="peek hidden"></div>
+
+    <div class="row">
+      <button id="btn-toggle-timer" class="btn dark">Pausar tempo</button>
+      <button id="btn-go-vote" class="btn primary">Ir para votação</button>
+    </div>
+    <p id="disc-guest" class="muted small hidden">Só o anfitrião controla o tempo e abre a votação.</p>
+  </section>
+
+  <!-- VOTAÇÃO -->
+  <section id="s-vote" class="screen hidden">
+    <div class="head center">
+      <h2>Votação final</h2>
+      <p id="vote-sub" class="muted small">Quem é o Impostor?</p>
+    </div>
+    <div id="vote-list" class="grid2"></div>
+    <p id="vote-progress" class="muted center small"></p>
+    <button id="btn-end-vote" class="btn dark hidden">Encerrar votação agora</button>
+  </section>
+
+  <!-- RESULTADO -->
+  <section id="s-result" class="screen hidden">
+    <div id="result-box" class="result center">
+      <h3 id="result-title">---</h3>
+      <p id="result-desc">---</p>
+    </div>
+    <ul id="tally" class="plist hidden"></ul>
+    <button id="btn-again" class="btn primary">Nova partida</button>
+    <p id="result-guest" class="muted center small hidden">Aguardando o anfitrião iniciar outra partida…</p>
+    <button id="btn-exit" class="btn ghost small">Sair da sala</button>
+  </section>
+
+</main>
+
+<div id="conn-banner" class="banner hidden" role="status"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
